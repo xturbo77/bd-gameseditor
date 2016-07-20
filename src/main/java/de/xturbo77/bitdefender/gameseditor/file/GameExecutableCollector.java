@@ -20,9 +20,18 @@ public class GameExecutableCollector {
 
     private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(GameExecutableCollector.class);
     private final String path;
+    private List<String> blacklist = new ArrayList<>();
 
     public GameExecutableCollector(final String path) {
         this.path = path;
+    }
+
+    public void setBlacklist(final List<String> blacklist) {
+        this.blacklist = blacklist;
+    }
+
+    public List<String> getBlacklist() {
+        return this.blacklist;
     }
 
     public List<File> findGameExecutables() {
@@ -33,6 +42,12 @@ public class GameExecutableCollector {
 
                 @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                    for (String blacklistEntry : getBlacklist()) {
+                        if (file.toFile().getAbsolutePath().contains(blacklistEntry)) {
+                            LOG.info("skipping blacklisted path: {}", blacklistEntry);
+                            return super.visitFile(file, attrs);
+                        }
+                    }
                     if (file.toFile().getName().endsWith("exe")) {
                         LOG.info("found executable: " + file);
                         files.add(file.toFile());
