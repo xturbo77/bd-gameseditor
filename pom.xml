@@ -6,7 +6,7 @@
     <artifactId>bitdefender-games-editor</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>BitDefenderGamesEditor</name>
+    <name>BitDefender - Gameslist Editor</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -55,6 +55,15 @@
             <artifactId>sqlite-jdbc</artifactId>
             <version>3.8.11.2</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.testng/testng -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.9.10</version>
+            <scope>test</scope>
+        </dependency>
+
 
     </dependencies>
 </project>
