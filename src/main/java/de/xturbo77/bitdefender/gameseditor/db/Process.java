@@ -11,6 +11,7 @@ public class Process {
     private String name;
     private String product;
     private String friendlyName;
+    private String fullPath;
 
     public int getId() {
         return id;
@@ -50,6 +51,14 @@ public class Process {
 
     public void setFriendlyName(String friendlyName) {
         this.friendlyName = friendlyName;
+    }
+
+    public String getFullPath() {
+        return fullPath;
+    }
+
+    public void setFullPath(String fullPath) {
+        this.fullPath = fullPath;
     }
 
     @Override

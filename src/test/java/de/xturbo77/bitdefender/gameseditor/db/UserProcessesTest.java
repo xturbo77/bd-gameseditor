@@ -14,21 +14,21 @@ import org.testng.annotations.Test;
  * @author schmidt
  */
 @Test
-public class CloudProcessesTest {
+public class UserProcessesTest {
 
-    private CloudProcesses cloudProcesses;
+    private UserProcesses userProcesses;
 
     @BeforeClass
     public void setup() throws URISyntaxException {
-        URL url = CloudProcessesTest.class.getResource("cloudprocesses.db");
+        URL url = UserProcessesTest.class.getResource("UserProcesses.db");
         Path path = Paths.get(url.toURI());
-        cloudProcesses = new CloudProcesses(path.toFile().getAbsolutePath());
+        userProcesses = new UserProcesses(path.toFile().getAbsolutePath());
     }
 
     public void testFindAll() {
-        List<Process> processes = cloudProcesses.findAll();
+        List<Process> processes = userProcesses.findAll();
         Assert.assertNotNull(processes, "Processes should not be null");
-        Assert.assertEquals(processes.size(), 189);
+        Assert.assertEquals(processes.size(), 10);
     }
 
 }

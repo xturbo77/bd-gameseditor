@@ -48,6 +48,7 @@ public class GameExecutableCollector {
                             return super.visitFile(file, attrs);
                         }
                     }
+
                     if (file.toFile().getName().endsWith("exe")) {
                         LOG.info("found executable: " + file);
                         files.add(file.toFile());
