@@ -34,6 +34,7 @@ public class UserProcesses {
         try {
             Class.forName("org.sqlite.JDBC");
             BoneCPConfig config = new BoneCPConfig();
+            config.setMaxConnectionsPerPartition(1);
             config.setJdbcUrl("jdbc:sqlite:" + path);
             config.setUsername("");
             config.setPassword("");
@@ -45,29 +46,31 @@ public class UserProcesses {
     }
 
     public void addProcessFile(final File file) {
+        boolean exists = false;
         try (Connection con = connectionPool.getConnection()) {
             PreparedStatement pstmt = con.prepareStatement("SELECT * FROM Processes WHERE Name = ?");
             pstmt.setString(1, file.getName());
             ResultSet rs = pstmt.executeQuery();
-            if (!rs.next()) {
-                Process process = new Process();
-                process.setType(2);
-                process.setName(file.getName());
-                process.setProduct(file.getParentFile().getName());
-                process.setFriendlyName(file.getParentFile().getName());
-                process.setFullPath(file.getAbsolutePath());
-                insertProcess(process);
-            } else {
-                LOG.info("executable {} has already been added", file.getName());
-            }
+            exists = rs.next();
         } catch (Exception ex) {
             LOG.error(ex.getMessage(), ex);
+        }
+        if (!exists) {
+            Process process = new Process();
+            process.setType(2);
+            process.setName(file.getName());
+            process.setProduct(file.getParentFile().getName());
+            process.setFriendlyName(file.getParentFile().getName());
+            process.setFullPath(file.getAbsolutePath());
+            insertProcess(process);
+        } else {
+            LOG.info("executable {} has already been added", file.getName());
         }
     }
 
     public void insertProcess(final Process process) {
         try (Connection con = connectionPool.getConnection()) {
-            PreparedStatement pstmt = con.prepareStatement("INSERT INTO Processes (Type, Name, Product, FriendlyName) VALUES(?, ?, ?, ?, ?)");
+            PreparedStatement pstmt = con.prepareStatement("INSERT INTO Processes (Type, Name, Product, FriendlyName, FullPath) VALUES(?, ?, ?, ?, ?)");
             pstmt.setInt(1, process.getType());
             pstmt.setString(2, process.getName());
             pstmt.setString(3, process.getProduct());

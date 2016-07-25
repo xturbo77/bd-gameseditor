@@ -68,7 +68,8 @@ public class Process {
             .append(" Type:").append(getType())
             .append(" Name:").append(getName())
             .append(" Product:").append(getProduct())
-            .append(" FriendlyName:").append(getFriendlyName());
+            .append(" FriendlyName:").append(getFriendlyName())
+            .append(" Path:").append(getFullPath());
         return sb.toString();
     }
 
